@@ -36,4 +36,14 @@ wb_pop_tidy <- wb_pop_long %>%
 View(wb_pop_tidy)
 ```
 
+# graph
+
+```{r}
+top5_pop <- wb_pop_tidy %>% 
+  filter (country %in% c("CHN", "IND", "USA", "IDN", "BRA"))
+
+ggplot(data = top5_pop, aes (x = year, y = total_population))+
+  geom_line(aes(color = country))
+```
+
 
