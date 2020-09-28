@@ -9,4 +9,31 @@ just making changes to allow testing of git
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+library(janitor)
 ```
+
+## get data
+
+```{r}
+wb_pop <-read.csv(here("data","world_bank_pop.csv"))
+View(wb_pop)
+```
+
+## tidy it
+
+```{r}
+wb_pop_long <- wb_pop %>% 
+  pivot_longer(cols = 'X2000':'X2017',  # R added an X
+               names_to = "year",
+               values_to = "population")
+wb_pop_tidy <- wb_pop_long %>% 
+  pivot_wider(names_from = indicator, 
+              values_from = population) %>% 
+  clean_names() %>%
+  mutate(year = as.numeric(str_remove(year, "X")))
+View(wb_pop_tidy)
+```
+
+
